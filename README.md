@@ -38,7 +38,7 @@ Welcome to the **Branch ML Project**, focused on predicting loan defaults using 
 
 - **Geospatial Visualization of Loan Defaults:** Below is an example of the geospatial analysis conducted to uncover regional trends in loan defaults:
 
-![Geospatial Analysis of Loan Defaults](figs/dash.jpeg)
+![Geospatial Analysis of Loan Defaults](figs/Dash.jpeg)
 
 - **`/figs`:** Contains charts and graphs that illustrate model performance metrics and insights derived from data analysis.
 - **`/csv`:** Houses processed datasets that have undergone cleaning, feature engineering, and transformation for modeling purposes.
