@@ -8,6 +8,7 @@ Welcome to the **Branch ML Project**, focused on predicting loan defaults using 
 
 - **SVM Classifier for Loan Default Prediction:** Utilizes a Support Vector Machine (SVM) to accurately predict the likelihood of loan defaults based on various features.
 - **FastAPI Prediction Service:** A robust API built with FastAPI to serve real-time predictions using the trained SVM model.
+- ![Geospatial Analysis of Loan Defaults](figs/api.png)
 - **Geospatial Data Analysis:** Analyzes and visualizes geospatial data to uncover patterns and trends related to loan defaults.
 
 ---
@@ -31,7 +32,13 @@ Welcome to the **Branch ML Project**, focused on predicting loan defaults using 
 
 ---
 
+---
+
 ## 📊 Visualization
+
+- **Geospatial Visualization of Loan Defaults:** Below is an example of the geospatial analysis conducted to uncover regional trends in loan defaults:
+
+![Geospatial Analysis of Loan Defaults](figs/dash.jpeg)
 
 - **`/figs`:** Contains charts and graphs that illustrate model performance metrics and insights derived from data analysis.
 - **`/csv`:** Houses processed datasets that have undergone cleaning, feature engineering, and transformation for modeling purposes.
