@@ -17,7 +17,7 @@ Welcome to the **Branch ML Project**, focused on predicting loan defaults using 
 - **`svm_pipeline.joblib`:** The serialized and trained SVM model ready for deployment.
 - **`app.py`:** The FastAPI application script that serves the prediction API.
 - **`geoplot.py`:** Script for geospatial visualization of data and model insights.
-- **`pca.py`:** Model training script that includes Principal Component Analysis (PCA) for dimensionality reduction.
+- **`svm.py`:** Model training script that includes Principal Component Analysis (PCA) for dimensionality reduction.
 
 ---
 
