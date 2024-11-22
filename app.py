@@ -42,19 +42,19 @@ class LoanData(BaseModel):
 FEATURE_ORDER = [
     "age",
     "cash_incoming_30days",
-    "cash_incoming_per_day",
-    "distance_traveled",
-    "mean_distance",
-    "max_distance",
-    "latitude",
     "longitude",
-    "altitude",
-    "application_hour",
-    "application_dayofweek",
+    "latitude",
     "accuracy",
+    "altitude",
     "bearing",
     "gps_upload_delay",
-    "total_distance"
+    "application_hour",
+    "application_dayofweek",
+    "cash_incoming_per_day",
+    "distance_traveled",
+    "total_distance",
+    "mean_distance",
+    "max_distance"
 ]
 
 @app.post("/predict")
@@ -88,3 +88,24 @@ def predict_default(data: LoanData):
     except Exception as e:
         logging.error(f"Prediction error: {e}")
         raise HTTPException(status_code=500, detail="Prediction failed.")
+
+
+# curl -X POST "http://localhost:8000/predict" \
+# -H "Content-Type: application/json" \
+# -d '{
+#       "age": 35,
+#       "cash_incoming_30days": 5000,
+#       "cash_incoming_per_day": 166.67,
+#       "distance_traveled": 10,
+#       "mean_distance": 5,
+#       "max_distance": 15,
+#       "latitude": 40.7128,
+#       "longitude": -74.0060,
+#       "altitude": 10,
+#       "application_hour": 14,
+#       "application_dayofweek": 2,
+#       "accuracy": 0.95,
+#       "bearing": 180,
+#       "gps_upload_delay": 5,
+#       "total_distance": 100
+#     }'
