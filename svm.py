@@ -15,36 +15,20 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
 def load_and_prepare_data(file_path, sample_fraction=0.6):
-    """
-    Load the dataset, clean it, and optionally sample a fraction of it.
-
-    Parameters:
-    - file_path: str, path to the CSV file.
-    - sample_fraction: float, fraction of data to sample (between 0 and 1).
-
-    Returns:
-    - X: pandas DataFrame, features.
-    - y: pandas Series, target variable.
-    """
     logging.info("Loading dataset...")
     data = pd.read_csv(file_path)
     logging.info("Cleaning data...")
-    # Drop irrelevant columns
     data_cleaned = data.drop(columns=['user_id', 'loan_outcome', 'location_provider'])
-    # Handle missing values by filling with median
     data_cleaned = data_cleaned.fillna(data_cleaned.median())
     
-    # Optionally sample a fraction of the data to speed up training
     if sample_fraction < 1.0:
         logging.info(f"Sampling {sample_fraction*100}% of the data for faster training...")
         data_cleaned = data_cleaned.sample(frac=sample_fraction, random_state=42)
         logging.info(f"Sampled data shape: {data_cleaned.shape}")
     
-    # Separate features and target
     X = data_cleaned.drop(columns=['loan_outcome_encoded'])
     y = data_cleaned['loan_outcome_encoded']
     
-    # Ensure labels are binary (0 and 1)
     unique_labels = y.unique()
     if not set(unique_labels).issubset({0, 1}):
         raise ValueError(f"Labels should be binary encoded as 0 and 1. Found labels: {unique_labels}")
@@ -53,13 +37,6 @@ def load_and_prepare_data(file_path, sample_fraction=0.6):
     return X, y
 
 def define_pipeline():
-    """
-    Define the machine learning pipeline and hyperparameter grid.
-
-    Returns:
-    - pipeline: sklearn Pipeline object.
-    - param_grid: dict, parameter grid for GridSearchCV.
-    """
     pipeline = Pipeline([
         ('scaler', StandardScaler()),
         ('pca', PCA(n_components=0.95)),  # Retain 95% variance
@@ -75,17 +52,6 @@ def define_pipeline():
     return pipeline, param_grid
 
 def split_data(X, y, test_size=0.4):
-    """
-    Split the data into training and testing sets.
-
-    Parameters:
-    - X: pandas DataFrame, features.
-    - y: pandas Series, target variable.
-    - test_size: float, proportion of data to be used as test set.
-
-    Returns:
-    - X_train, X_test, y_train, y_test: split datasets.
-    """
     logging.info("Splitting data into training and testing sets...")
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=42, stratify=y
@@ -95,18 +61,6 @@ def split_data(X, y, test_size=0.4):
     return X_train, X_test, y_train, y_test
 
 def hyperparameter_tuning(pipeline, param_grid, X_train, y_train):
-    """
-    Perform hyperparameter tuning using GridSearchCV.
-
-    Parameters:
-    - pipeline: sklearn Pipeline object.
-    - param_grid: dict, parameter grid for GridSearchCV.
-    - X_train: pandas DataFrame, training features.
-    - y_train: pandas Series, training target.
-
-    Returns:
-    - best_estimator: sklearn Pipeline, best found model.
-    """
     logging.info("Starting hyperparameter tuning for SVM...")
     grid_search = GridSearchCV(
         estimator=pipeline,
@@ -122,14 +76,6 @@ def hyperparameter_tuning(pipeline, param_grid, X_train, y_train):
     return grid_search.best_estimator_
 
 def evaluate_model(model, X_test, y_test):
-    """
-    Evaluate the trained model on the test set.
-
-    Parameters:
-    - model: sklearn estimator, trained model.
-    - X_test: pandas DataFrame, testing features.
-    - y_test: pandas Series, testing target.
-    """
     logging.info("Evaluating the model on the test set...")
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test)[:, 1]
@@ -167,13 +113,7 @@ def evaluate_model(model, X_test, y_test):
     plt.show()
 
 def save_model(model, filename='svm_pipeline.joblib'):
-    """
-    Save the trained model to a file.
 
-    Parameters:
-    - model: sklearn estimator, trained model.
-    - filename: str, filename to save the model.
-    """
     logging.info(f"Saving the trained model to {filename}...")
     dump(model, filename)
     logging.info("Model saved successfully.")
